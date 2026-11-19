@@ -1,0 +1,70 @@
+
+{
+  "version": "1.0.0",
+
+  "sources": [
+    {
+      "id": "data-01",
+      "name": "基本知識データ",
+      "keywords": [
+        "基本",
+        "知識",
+        "AI",
+        "チャット"
+      ],
+      "tags": [
+        "基礎",
+        "入門"
+      ],
+      "synonyms": [
+        "初心者",
+        "概要",
+        "基本情報"
+      ],
+      "url": "https://YOUR-USERNAME.github.io/ai-data-01/knowledge_sample.json"
+    },
+
+    {
+      "id": "data-02",
+      "name": "JavaScript知識データ",
+      "keywords": [
+        "JavaScript",
+        "JS",
+        "プログラミング",
+        "コード"
+      ],
+      "tags": [
+        "Web開発",
+        "HTML",
+        "CSS"
+      ],
+      "synonyms": [
+        "ジャバスクリプト",
+        "ウェブ開発",
+        "プログラム"
+      ],
+      "url": "https://YOUR-USERNAME.github.io/ai-data-02/knowledge_02.json"
+    },
+
+    {
+      "id": "data-03",
+      "name": "AI技術データ",
+      "keywords": [
+        "人工知能",
+        "機械学習",
+        "AIモデル"
+      ],
+      "tags": [
+        "AI",
+        "技術",
+        "データ"
+      ],
+      "synonyms": [
+        "人工知能技術",
+        "機械学習モデル",
+        "ニューラルネットワーク"
+      ],
+      "url": "https://YOUR-USERNAME.github.io/ai-data-03/knowledge_03.json"
+    }
+  ]
+}
