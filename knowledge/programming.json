@@ -1,0 +1,40 @@
+
+{
+  "database_name": "Programming Knowledge",
+  "version": "1.0.0",
+
+  "knowledge": [
+    {
+      "id": "program-001",
+      "title": "JavaScriptとは",
+      "keywords": ["JavaScript", "JS", "プログラミング言語"],
+      "tags": ["Web開発", "ブラウザ", "プログラミング"],
+      "synonyms": ["ジャバスクリプト", "JS言語"],
+      "content": "JavaScriptは、Webブラウザなどで動作するプログラミング言語です。HTMLで作成したページに動きを追加したり、データを取得したり、検索や計算などの処理を実行できます。"
+    },
+    {
+      "id": "program-002",
+      "title": "HTMLとは",
+      "keywords": ["HTML", "Webページ", "マークアップ"],
+      "tags": ["Web開発", "ホームページ"],
+      "synonyms": ["エイチティーエムエル", "Webページ構造"],
+      "content": "HTMLは、Webページの構造や内容を定義するためのマークアップ言語です。見出し、文章、画像、リンクなどの要素を記述します。"
+    },
+    {
+      "id": "program-003",
+      "title": "CSSとは",
+      "keywords": ["CSS", "スタイルシート", "デザイン"],
+      "tags": ["Web開発", "装飾", "レイアウト"],
+      "synonyms": ["シーエスエス", "ページ装飾"],
+      "content": "CSSは、HTMLで作成されたWebページの見た目を指定するスタイルシート言語です。色、文字サイズ、配置、余白、画面サイズへの対応などを設定できます。"
+    },
+    {
+      "id": "program-004",
+      "title": "JavaScriptのfetchとは",
+      "keywords": ["fetch", "通信", "JSON取得"],
+      "tags": ["JavaScript", "HTTP", "Web API"],
+      "synonyms": ["フェッチ", "データ取得", "HTTP通信"],
+      "content": "fetchは、JavaScriptからHTTPリクエストを送信してデータを取得するための機能です。Promiseを返すため、asyncとawaitを使って非同期通信を扱えます。"
+    }
+  ]
+}
