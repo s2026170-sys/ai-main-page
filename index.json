@@ -1,16 +1,17 @@
 
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
 
   "sources": [
     {
-      "id": "data-01",
-      "name": "基本知識データ",
+      "id": "basic",
+      "name": "基本知識",
+      "path": "./knowledge/basic.json",
       "keywords": [
         "基本",
         "知識",
         "AI",
-        "チャット"
+        "人工知能"
       ],
       "tags": [
         "基礎",
@@ -20,51 +21,70 @@
         "初心者",
         "概要",
         "基本情報"
-      ],
-      "url": "https://YOUR-USERNAME.github.io/ai-data-01/knowledge_sample.json"
+      ]
     },
 
     {
-      "id": "data-02",
-      "name": "JavaScript知識データ",
+      "id": "programming",
+      "name": "プログラミング知識",
+      "path": "./knowledge/programming.json",
       "keywords": [
         "JavaScript",
-        "JS",
+        "HTML",
+        "CSS",
         "プログラミング",
         "コード"
       ],
       "tags": [
         "Web開発",
-        "HTML",
-        "CSS"
+        "ブラウザ"
       ],
       "synonyms": [
         "ジャバスクリプト",
         "ウェブ開発",
         "プログラム"
-      ],
-      "url": "https://YOUR-USERNAME.github.io/ai-data-02/knowledge_02.json"
+      ]
     },
 
     {
-      "id": "data-03",
-      "name": "AI技術データ",
+      "id": "science",
+      "name": "科学知識",
+      "path": "./knowledge/science.json",
       "keywords": [
-        "人工知能",
-        "機械学習",
-        "AIモデル"
+        "科学",
+        "物理",
+        "化学",
+        "宇宙"
       ],
       "tags": [
-        "AI",
-        "技術",
-        "データ"
+        "自然科学",
+        "研究"
       ],
       "synonyms": [
-        "人工知能技術",
-        "機械学習モデル",
-        "ニューラルネットワーク"
+        "サイエンス",
+        "自然現象"
+      ]
+    },
+
+    {
+      "id": "history",
+      "name": "歴史知識",
+      "path": "./knowledge/history.json",
+      "keywords": [
+        "歴史",
+        "日本史",
+        "世界史",
+        "時代"
       ],
-      "url": "https://YOUR-USERNAME.github.io/ai-data-03/knowledge_03.json"
+      "tags": [
+        "文化",
+        "文明"
+      ],
+      "synonyms": [
+        "過去",
+        "歴史上",
+        "年代"
+      ]
     }
   ]
 }
