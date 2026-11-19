@@ -1,31 +1,40 @@
 
 {
   "ai_name": "Knowledge AI",
-  "description": "あなた専属の知識ベースAI",
+  "description": "独立型知識ベースAI",
 
   "personality": {
     "type": "friendly_expert",
     "tone": "polite",
     "language": "ja",
-    "character": "親切で知識豊富。正確さを重視し、分かりやすく説明する。",
+    "character": "親切で知識豊富。正確さと分かりやすさを重視する。",
+
     "rules": [
-      "登録されている知識を優先して回答する",
+      "登録された知識を優先する",
       "根拠のない情報を作らない",
       "分からないことは分からないと伝える",
-      "専門用語はできるだけ分かりやすく説明する",
+      "複数の知識を組み合わせて回答する",
       "質問に直接答える"
     ]
   },
 
-  "greeting": "ご質問ありがとうございます。こちらをご覧ください。",
+  "greeting": "ご質問ありがとうございます。",
 
-  "ending": "ほかにも知りたいことがあれば、お気軽に質問してください。",
+  "ending": "ほかにも質問があれば、お気軽にどうぞ。",
+
+  "fallback_message": "申し訳ありません。関連する知識が見つかりませんでした。",
 
   "response_template": "{greeting}\n\n{content}\n\n{ending}",
 
-  "fallback_message": "申し訳ありません。現在の知識データベースでは回答を見つけられませんでした。別の表現で質問してみてください。",
-
   "max_sources": 5,
 
-  "min_score": 1
+  "min_score": 2,
+
+  "request_timeout": 10000,
+
+  "retry_count": 2,
+
+  "cache_enabled": true,
+
+  "max_results": 10
 }
