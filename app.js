@@ -2,13 +2,18 @@
 "use strict";
 
 // ==========================================
-// Knowledge AI v2.0
+// Knowledge AI v3.0
 // Single Repository Edition
+// Logic Reasoning Edition
 // Vanilla JavaScript
 // ==========================================
 
 const CONFIG_URL = "./config.json";
 const INDEX_URL = "./index.json";
+
+// ==========================================
+// 1. 状態管理
+// ==========================================
 
 const state = {
   config: null,
@@ -20,18 +25,27 @@ const state = {
 const $ = id => document.getElementById(id);
 
 // ==========================================
-// 1. 通信機能
+// 2. 通信機能
 // ==========================================
 
 async function fetchJSON(url) {
+
   const config = state.config || {};
 
-  const timeout = config.request_timeout || 10000;
-  const retries = config.retry_count ?? 2;
+  const timeout =
+    config.request_timeout || 10000;
+
+  const retries =
+    config.retry_count ?? 2;
 
   let lastError;
 
-  for (let attempt = 0; attempt <= retries; attempt++) {
+  for (
+    let attempt = 0;
+    attempt <= retries;
+    attempt++
+  ) {
+
     const controller = new AbortController();
 
     const timer = setTimeout(
@@ -40,16 +54,20 @@ async function fetchJSON(url) {
     );
 
     try {
+
       const response = await fetch(url, {
         method: "GET",
+
         headers: {
           "Accept": "application/json"
         },
+
         cache: "no-cache",
         signal: controller.signal
       });
 
       if (!response.ok) {
+
         throw new Error(
           `HTTP ${response.status}: ${url}`
         );
@@ -62,21 +80,30 @@ async function fetchJSON(url) {
         typeof data !== "object" ||
         Array.isArray(data)
       ) {
-        throw new Error("JSON形式が不正です: " + url);
+
+        throw new Error(
+          "JSON形式が不正です: " + url
+        );
       }
 
       return data;
 
     } catch (error) {
+
       lastError = error;
 
       if (attempt < retries) {
+
         await new Promise(resolve =>
-          setTimeout(resolve, 500 * (attempt + 1))
+          setTimeout(
+            resolve,
+            500 * (attempt + 1)
+          )
         );
       }
 
     } finally {
+
       clearTimeout(timer);
     }
   }
@@ -85,19 +112,25 @@ async function fetchJSON(url) {
 }
 
 // ==========================================
-// 2. 初期化
+// 3. 初期化
 // ==========================================
 
 async function initialize() {
+
   try {
-    // 設定ファイルと目次を同時取得
+
     const [config, index] = await Promise.all([
+
       fetchJSON(CONFIG_URL),
       fetchJSON(INDEX_URL)
+
     ]);
 
     if (!Array.isArray(index.sources)) {
-      throw new Error("index.jsonのsourcesが不正です");
+
+      throw new Error(
+        "index.jsonのsourcesが不正です"
+      );
     }
 
     state.config = config;
@@ -110,12 +143,18 @@ async function initialize() {
       config.description || "知識ベースAI";
 
     $("status").textContent = "オンライン";
+
     $("status").classList.remove("error");
 
   } catch (error) {
-    console.error("初期化エラー:", error);
+
+    console.error(
+      "初期化エラー:",
+      error
+    );
 
     $("status").textContent = "接続エラー";
+
     $("status").classList.add("error");
 
     addMessage(
@@ -127,10 +166,11 @@ async function initialize() {
 }
 
 // ==========================================
-// 3. 日本語文字列処理
+// 4. 日本語文字列処理
 // ==========================================
 
 function normalize(text) {
+
   return String(text || "")
     .toLowerCase()
     .normalize("NFKC")
@@ -139,6 +179,7 @@ function normalize(text) {
 }
 
 function tokenize(text) {
+
   const normalized = normalize(text);
 
   const terms = normalized
@@ -150,11 +191,19 @@ function tokenize(text) {
   ) || [];
 
   for (const part of japanese) {
+
     terms.push(part);
 
     // 日本語の2文字単位の簡易検索
-    for (let i = 0; i < part.length - 1; i++) {
-      terms.push(part.slice(i, i + 2));
+    for (
+      let i = 0;
+      i < part.length - 1;
+      i++
+    ) {
+
+      terms.push(
+        part.slice(i, i + 2)
+      );
     }
   }
 
@@ -162,10 +211,11 @@ function tokenize(text) {
 }
 
 // ==========================================
-// 4. スコアリング
+// 5. スコアリング
 // ==========================================
 
 function calculateScore(question, item) {
+
   const q = normalize(question);
   const terms = tokenize(question);
 
@@ -178,22 +228,29 @@ function calculateScore(question, item) {
   ];
 
   for (const [field, weight] of fields) {
+
     const values = item[field] || [];
 
     for (const value of values) {
+
       const word = normalize(value);
 
       if (!word) continue;
 
       if (q.includes(word)) {
+
         score += weight * 2;
+
       } else if (terms.includes(word)) {
+
         score += weight;
       }
     }
   }
 
-  const title = normalize(item.title || "");
+  const title = normalize(
+    item.title || ""
+  );
 
   if (title && q.includes(title)) {
     score += 12;
@@ -203,67 +260,90 @@ function calculateScore(question, item) {
 }
 
 // ==========================================
-// 5. 必要なJSONだけ選択
+// 6. 必要なJSONだけ選択
 // ==========================================
 
 function findRelevantSources(question) {
+
   const sources = state.index.sources;
 
   return sources
+
     .map(source => ({
+
       ...source,
-      score: calculateScore(question, {
-        title: source.name,
-        keywords: source.keywords,
-        tags: source.tags,
-        synonyms: source.synonyms
-      })
+
+      score: calculateScore(
+        question,
+        {
+          title: source.name,
+          keywords: source.keywords,
+          tags: source.tags,
+          synonyms: source.synonyms
+        }
+      )
+
     }))
+
     .filter(source => source.score > 0)
+
     .sort((a, b) => b.score - a.score)
-    .slice(0, state.config.max_sources || 5);
+
+    .slice(
+      0,
+      state.config.max_sources || 5
+    );
 }
 
 // ==========================================
-// 6. 知識JSONの取得
+// 7. 知識JSONの取得
 // ==========================================
 
 async function loadKnowledge(source) {
+
   const url = new URL(
     source.path,
     document.baseURI
   ).href;
 
+  // メモリキャッシュ
   if (
     state.config.cache_enabled &&
     state.cache.has(url)
   ) {
+
     return state.cache.get(url);
   }
 
   const data = await fetchJSON(url);
 
   if (!Array.isArray(data.knowledge)) {
+
     throw new Error(
-      "knowledge配列が存在しません: " + source.name
+      "knowledge配列が存在しません: " +
+      source.name
     );
   }
 
-  // 個々の知識レコードの形式検証
+  // 知識データの形式検証
   for (const item of data.knowledge) {
+
     if (
       !item ||
       typeof item !== "object" ||
       typeof item.title !== "string" ||
       typeof item.content !== "string"
     ) {
+
       throw new Error(
-        "知識データの形式が不正です: " + source.name
+        "知識データの形式が不正です: " +
+        source.name
       );
     }
   }
 
   if (state.config.cache_enabled) {
+
     state.cache.set(url, data);
   }
 
@@ -271,13 +351,15 @@ async function loadKnowledge(source) {
 }
 
 // ==========================================
-// 7. 知識検索
+// 8. 知識検索
 // ==========================================
 
 async function searchKnowledge(question) {
+
   const sources = findRelevantSources(question);
 
   if (sources.length === 0) {
+
     return {
       results: [],
       errors: []
@@ -286,16 +368,26 @@ async function searchKnowledge(question) {
 
   // 選ばれたJSONだけを並列取得
   const responses = await Promise.allSettled(
-    sources.map(source => loadKnowledge(source))
+
+    sources.map(source =>
+      loadKnowledge(source)
+    )
+
   );
 
   const candidates = [];
   const errors = [];
 
-  for (let i = 0; i < responses.length; i++) {
+  for (
+    let i = 0;
+    i < responses.length;
+    i++
+  ) {
+
     const result = responses[i];
 
     if (result.status === "rejected") {
+
       errors.push(sources[i].name);
 
       console.warn(
@@ -308,23 +400,36 @@ async function searchKnowledge(question) {
     }
 
     for (const item of result.value.knowledge) {
-      const score = calculateScore(question, item);
+
+      const score = calculateScore(
+        question,
+        item
+      );
 
       if (score > 0) {
+
         candidates.push({
+
           ...item,
+
           score,
+
           sourceName: sources[i].name
+
         });
       }
     }
   }
 
-  // 高得点順に並べる
-  candidates.sort((a, b) => b.score - a.score);
+  // 高得点順
+  candidates.sort(
+    (a, b) => b.score - a.score
+  );
 
-  const results = candidates
-    .slice(0, state.config.max_results || 10);
+  const results = candidates.slice(
+    0,
+    state.config.max_results || 10
+  );
 
   return {
     results,
@@ -333,10 +438,11 @@ async function searchKnowledge(question) {
 }
 
 // ==========================================
-// 8. 回答生成
+// 9. 回答生成
 // ==========================================
 
 function generateAnswer(question, results) {
+
   const config = state.config;
 
   const threshold = config.min_score || 1;
@@ -346,46 +452,113 @@ function generateAnswer(question, results) {
   );
 
   if (matched.length === 0) {
-    return config.fallback_message;
+
+    return (
+      config.fallback_message ||
+      "関連する知識が見つかりませんでした。"
+    );
   }
 
   // 複数の知識を組み合わせる
-  const contents = matched.map((item, index) => {
+  const contents = matched.map(item => {
+
     return (
       `【${item.title}】\n` +
       item.content
     );
   });
 
-  const combinedContent = contents.join("\n\n");
+  const combinedContent =
+    contents.join("\n\n");
 
   const template =
     config.response_template ||
     "{greeting}\n\n{content}\n\n{ending}";
 
   return template
-    .replace("{greeting}", config.greeting || "")
-    .replace("{content}", combinedContent)
-    .replace("{ending}", config.ending || "")
-    .replace("{question}", question);
+
+    .replace(
+      "{greeting}",
+      config.greeting || ""
+    )
+
+    .replace(
+      "{content}",
+      combinedContent
+    )
+
+    .replace(
+      "{ending}",
+      config.ending || ""
+    )
+
+    .replace(
+      "{question}",
+      question
+    );
 }
 
 // ==========================================
-// 9. チャット表示
+// 10. 論理推論
+// ==========================================
+
+function generateReasoning(question, results) {
+
+  if (
+    !window.LogicReasoner ||
+    typeof window.LogicReasoner.reason !== "function"
+  ) {
+
+    return "";
+  }
+
+  try {
+
+    const result = window.LogicReasoner.reason(
+      question,
+      results,
+      {
+        maxSteps: 100
+      }
+    );
+
+    return window.LogicReasoner.format(result);
+
+  } catch (error) {
+
+    console.error(
+      "論理推論エラー:",
+      error
+    );
+
+    return (
+      "【論理推論】\n" +
+      "推論中にエラーが発生しました。"
+    );
+  }
+}
+
+// ==========================================
+// 11. チャット表示
 // ==========================================
 
 function addMessage(text, role) {
+
   const chat = $("chat");
 
   const message = document.createElement("div");
+
   message.className = `message ${role}`;
 
   const avatar = document.createElement("div");
+
   avatar.className = "avatar";
+
   avatar.textContent =
     role === "assistant" ? "AI" : "YOU";
 
   const bubble = document.createElement("div");
+
   bubble.className = "bubble";
 
   // HTMLとして実行させない
@@ -400,17 +573,20 @@ function addMessage(text, role) {
 }
 
 // ==========================================
-// 10. 質問処理
+// 12. 質問処理
 // ==========================================
 
 async function handleQuestion(question) {
+
   if (state.busy) return;
 
   if (!state.config || !state.index) {
+
     addMessage(
       "システムが初期化されていません。",
       "assistant"
     );
+
     return;
   }
 
@@ -420,20 +596,47 @@ async function handleQuestion(question) {
   $("send").disabled = true;
 
   try {
-    const search = await searchKnowledge(question);
 
+    // 知識を検索
+    const search = await searchKnowledge(
+      question
+    );
+
+    // 通常回答を生成
     const answer = generateAnswer(
       question,
       search.results
     );
 
-    addMessage(answer, "assistant");
+    // 論理推論を実行
+    const reasoning = generateReasoning(
+      question,
+      search.results
+    );
 
+    // 通常回答と推論結果を統合
+    const finalAnswer = reasoning
+
+      ? answer + "\n\n" + reasoning
+
+      : answer;
+
+    addMessage(
+      finalAnswer,
+      "assistant"
+    );
+
+    // 検索した知識を表示
     if (search.results.length > 0) {
+
       const references = search.results
+
         .map(item =>
+
           `・${item.title}（${item.sourceName} / ${item.score}点）`
+
         )
+
         .join("\n");
 
       addMessage(
@@ -442,47 +645,68 @@ async function handleQuestion(question) {
       );
     }
 
+    // 通信エラーを表示
     if (search.errors.length > 0) {
+
       addMessage(
+
         "【通信上の注意】\n" +
         "一部の知識ファイルを取得できませんでした:\n" +
         search.errors.join(", "),
+
         "assistant"
       );
     }
 
   } catch (error) {
-    console.error("検索エラー:", error);
+
+    console.error(
+      "検索エラー:",
+      error
+    );
 
     addMessage(
+
       "検索中にエラーが発生しました。\n" +
       "通信状態とJSONファイルを確認してください。",
+
       "assistant"
     );
 
   } finally {
+
     state.busy = false;
+
     $("loading").hidden = true;
     $("send").disabled = false;
+
     $("question").focus();
   }
 }
 
 // ==========================================
-// 11. イベント設定
+// 13. イベント設定
 // ==========================================
 
+// 送信ボタン
 $("chat-form").addEventListener(
   "submit",
   async event => {
+
     event.preventDefault();
 
     const input = $("question");
+
     const question = input.value.trim();
 
-    if (!question || state.busy) return;
+    if (!question || state.busy) {
+      return;
+    }
 
-    addMessage(question, "user");
+    addMessage(
+      question,
+      "user"
+    );
 
     input.value = "";
     input.style.height = "auto";
@@ -496,12 +720,15 @@ $("chat-form").addEventListener(
 $("question").addEventListener(
   "keydown",
   event => {
+
     if (
       event.key === "Enter" &&
       !event.shiftKey &&
       !event.isComposing
     ) {
+
       event.preventDefault();
+
       $("chat-form").requestSubmit();
     }
   }
@@ -511,6 +738,7 @@ $("question").addEventListener(
 $("question").addEventListener(
   "input",
   event => {
+
     const element = event.target;
 
     element.style.height = "auto";
@@ -521,7 +749,7 @@ $("question").addEventListener(
 );
 
 // ==========================================
-// 12. 起動
+// 14. 起動
 // ==========================================
 
 initialize();
