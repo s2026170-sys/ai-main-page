@@ -1,85 +1,37 @@
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "sources": [
     {
       "id": "basic",
       "name": "基本知識",
       "path": "./knowledge/basic.json",
-      "keywords": [
-        "基本",
-        "知識",
-        "AI",
-        "人工知能"
-      ],
-      "tags": [
-        "基礎",
-        "入門"
-      ],
-      "synonyms": [
-        "初心者",
-        "概要",
-        "基本情報"
-      ]
+      "keywords": ["基本", "知識", "AI", "人工知能"],
+      "tags": ["基礎", "入門"],
+      "synonyms": ["初心者", "概要", "基本情報"]
     },
     {
       "id": "programming",
       "name": "プログラミング知識",
       "path": "./knowledge/programming.json",
-      "keywords": [
-        "JavaScript",
-        "HTML",
-        "CSS",
-        "プログラミング",
-        "コード"
-      ],
-      "tags": [
-        "Web開発",
-        "ブラウザ"
-      ],
-      "synonyms": [
-        "ジャバスクリプト",
-        "ウェブ開発",
-        "プログラム"
-      ]
+      "keywords": ["JavaScript", "HTML", "CSS", "プログラミング", "コード"],
+      "tags": ["Web開発", "ブラウザ"],
+      "synonyms": ["ジャバスクリプト", "ウェブ開発", "プログラム"]
     },
     {
       "id": "science",
       "name": "科学知識",
       "path": "./knowledge/science.json",
-      "keywords": [
-        "科学",
-        "物理",
-        "化学",
-        "宇宙"
-      ],
-      "tags": [
-        "自然科学",
-        "研究"
-      ],
-      "synonyms": [
-        "サイエンス",
-        "自然現象"
-      ]
+      "keywords": ["科学", "物理", "化学", "宇宙"],
+      "tags": ["自然科学", "研究"],
+      "synonyms": ["サイエンス", "自然現象"]
     },
     {
       "id": "history",
       "name": "歴史知識",
       "path": "./knowledge/history.json",
-      "keywords": [
-        "歴史",
-        "日本史",
-        "世界史",
-        "時代"
-      ],
-      "tags": [
-        "文化",
-        "文明"
-      ],
-      "synonyms": [
-        "過去",
-        "歴史上",
-        "年代"
-      ]
+      "keywords": ["歴史", "日本史", "世界史", "時代"],
+      "tags": ["文化", "文明"],
+      "synonyms": ["過去", "歴史上", "年代"]
     },
     {
       "id": "logic",
@@ -95,17 +47,31 @@
         "なぜ",
         "どうして"
       ],
-      "tags": [
-        "logic",
-        "reasoning",
-        "inference"
-      ],
-      "synonyms": [
+      "tags": ["logic", "reasoning", "inference"],
+      "synonyms": ["考える", "思考", "判断", "推理"]
+    },
+    {
+      "id": "logic-extra",
+      "name": "論理的推論・追加知識",
+      "path": "./knowledge/logic-extra.jsonl",
+      "keywords": [
+        "論理",
+        "推論",
+        "条件",
+        "原因",
+        "結果",
         "考える",
-        "思考",
+        "なぜ",
+        "どうして",
+        "数学",
+        "科学",
+        "証明",
         "判断",
-        "推理"
-      ]
+        "問題解決",
+        "仮説"
+      ],
+      "tags": ["logic", "reasoning", "inference", "additional"],
+      "synonyms": ["思考", "推理", "論理的思考", "追加知識"]
     }
   ]
 }
