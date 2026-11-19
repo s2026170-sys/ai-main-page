@@ -1,0 +1,173 @@
+{
+  "title": "論理的推論の知識ベース",
+  "description": "事実と条件ルールを使って論理的な推論を行うための知識データ",
+  "keywords": [
+    "論理",
+    "推論",
+    "条件",
+    "原因",
+    "結果",
+    "雨",
+    "傘",
+    "濡れる",
+    "火",
+    "熱",
+    "水",
+    "凍る",
+    "プログラミング",
+    "エラー"
+  ],
+  "synonyms": [
+    "考える",
+    "なぜ",
+    "どうして",
+    "もし",
+    "ならば",
+    "したがって",
+    "つまり"
+  ],
+  "tags": [
+    "logic",
+    "reasoning",
+    "rules",
+    "inference"
+  ],
+  "knowledge": [
+    {
+      "id": "logic-001",
+      "title": "雨と傘の関係",
+      "content": "雨が降っていて傘を持っていない場合、濡れる可能性が高い。",
+      "facts": [
+        {
+          "id": "rain",
+          "keywords": ["雨が降っている", "雨", "降雨"],
+          "value": true
+        },
+        {
+          "id": "umbrella",
+          "keywords": ["傘を持っている", "傘がある"],
+          "value": true
+        },
+        {
+          "id": "wet",
+          "keywords": ["濡れる", "服が濡れる"],
+          "value": true
+        }
+      ],
+      "rules": [
+        {
+          "id": "rule-rain-001",
+          "if": {
+            "all": [
+              { "fact": "rain" },
+              { "not": { "fact": "umbrella" } }
+            ]
+          },
+          "then": {
+            "fact": "wet",
+            "value": true
+          },
+          "explanation": "雨が降っていて傘を持っていないため、濡れる可能性が高いと判断しました。"
+        }
+      ]
+    },
+    {
+      "id": "logic-002",
+      "title": "火と熱の関係",
+      "content": "火が存在する場所には熱が発生する。",
+      "facts": [
+        {
+          "id": "fire",
+          "keywords": ["火がある", "火", "燃えている"],
+          "value": true
+        },
+        {
+          "id": "heat",
+          "keywords": ["熱がある", "熱い", "高温"],
+          "value": true
+        }
+      ],
+      "rules": [
+        {
+          "id": "rule-fire-001",
+          "if": {
+            "fact": "fire"
+          },
+          "then": {
+            "fact": "heat",
+            "value": true
+          },
+          "explanation": "火があるため、熱が発生すると推論しました。"
+        }
+      ]
+    },
+    {
+      "id": "logic-003",
+      "title": "水と凍結の関係",
+      "content": "水が十分に冷却されて氷点下になると、通常は凍る。",
+      "facts": [
+        {
+          "id": "water",
+          "keywords": ["水がある", "水"],
+          "value": true
+        },
+        {
+          "id": "below_zero",
+          "keywords": ["0度以下", "氷点下", "マイナスの温度"],
+          "value": true
+        },
+        {
+          "id": "frozen",
+          "keywords": ["凍る", "凍結する", "氷になる"],
+          "value": true
+        }
+      ],
+      "rules": [
+        {
+          "id": "rule-water-001",
+          "if": {
+            "all": [
+              { "fact": "water" },
+              { "fact": "below_zero" }
+            ]
+          },
+          "then": {
+            "fact": "frozen",
+            "value": true
+          },
+          "explanation": "水があり、温度が0度以下なので、凍ると推論しました。"
+        }
+      ]
+    },
+    {
+      "id": "logic-004",
+      "title": "プログラムのエラー",
+      "content": "プログラムに構文エラーがある場合、正常に実行できないことがある。",
+      "facts": [
+        {
+          "id": "syntax_error",
+          "keywords": ["構文エラー", "文法エラー", "syntax error"],
+          "value": true
+        },
+        {
+          "id": "program_runs",
+          "keywords": ["正常に実行", "実行できる"],
+          "value": true
+        }
+      ],
+      "rules": [
+        {
+          "id": "rule-program-001",
+          "if": {
+            "fact": "syntax_error"
+          },
+          "then": {
+            "fact": "program_runs",
+            "value": false
+          },
+          "explanation": "構文エラーがあるため、プログラムが正常に実行できないと判断しました。"
+        }
+      ]
+    }
+  ]
+}
