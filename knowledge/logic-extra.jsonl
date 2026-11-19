@@ -1,0 +1,1236 @@
+{
+  "title": "論理的推論の知識ベース",
+  "description": "論理的推論に利用する知識データ",
+  "keywords": ["論理学", "数学", "科学", "推論", "知識ベース"],
+  "synonyms": ["推論エンジン", "知識表現", "ルールベース"],
+  "tags": ["logic", "reasoning", "knowledge-base", "inference"],
+  "knowledge": [
+    {
+      "id": "logic-001",
+      "title": "演繹法の基本構造",
+      "content": "演繹法は一般原則から個別の結論を導く推論であり、前提が真であれば結論は必ず真となる。",
+      "facts": [
+        {"id": "fact_deduction_general", "keywords": ["一般原則", "普遍命題"], "value": true},
+        {"id": "fact_deduction_specific", "keywords": ["個別事例", "特殊命題"], "value": true},
+        {"id": "fact_deduction_conclusion", "keywords": ["演繹的結論"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-001-1",
+          "if": {"all": [{"fact": "fact_deduction_general"}, {"fact": "fact_deduction_specific"}]},
+          "then": {"fact": "fact_deduction_conclusion", "value": true},
+          "explanation": "一般原則と個別事例がともに真であるとき、演繹法により結論が導かれる。"
+        }
+      ]
+    },
+    {
+      "id": "logic-002",
+      "title": "帰納法の基本構造",
+      "content": "帰納法は複数の個別事例から一般命題を導く推論であり、結論は確率的に支持されるが必然ではない。",
+      "facts": [
+        {"id": "fact_induction_observations", "keywords": ["観察事例", "データ"], "value": true},
+        {"id": "fact_induction_pattern", "keywords": ["規則性", "パターン"], "value": true},
+        {"id": "fact_induction_generalization", "keywords": ["一般化", "仮説"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-002-1",
+          "if": {"all": [{"fact": "fact_induction_observations"}, {"fact": "fact_induction_pattern"}]},
+          "then": {"fact": "fact_induction_generalization", "value": true},
+          "explanation": "複数の観察事例に共通のパターンが見出されるとき、帰納的に一般命題が仮説として導かれる。"
+        }
+      ]
+    },
+    {
+      "id": "logic-003",
+      "title": "反証の論理",
+      "content": "反証は仮説から導かれる予測が観察と矛盾する場合に、その仮説を否定する推論である。",
+      "facts": [
+        {"id": "fact_hypothesis_prediction", "keywords": ["仮説", "予測"], "value": true},
+        {"id": "fact_observation_contradiction", "keywords": ["観察結果", "矛盾"], "value": true},
+        {"id": "fact_hypothesis_falsified", "keywords": ["反証された仮説"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-003-1",
+          "if": {"all": [{"fact": "fact_hypothesis_prediction"}, {"fact": "fact_observation_contradiction"}]},
+          "then": {"fact": "fact_hypothesis_falsified", "value": true},
+          "explanation": "仮説から導かれる予測が観察結果と矛盾する場合、その仮説は反証される。"
+        }
+      ]
+    },
+    {
+      "id": "logic-004",
+      "title": "矛盾の検出",
+      "content": "ある命題とその否定が同時に真とされる場合、論理的矛盾が生じている。",
+      "facts": [
+        {"id": "fact_proposition_true", "keywords": ["命題P", "真"], "value": true},
+        {"id": "fact_negation_true", "keywords": ["否定P", "¬P", "真"], "value": true},
+        {"id": "fact_contradiction_detected", "keywords": ["矛盾"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-004-1",
+          "if": {"all": [{"fact": "fact_proposition_true"}, {"fact": "fact_negation_true"}]},
+          "then": {"fact": "fact_contradiction_detected", "value": true},
+          "explanation": "命題Pとその否定¬Pが同時に真である場合、矛盾が検出される。"
+        }
+      ]
+    },
+    {
+      "id": "logic-005",
+      "title": "必要条件と十分条件",
+      "content": "PがQの十分条件であるとはPならばQが成り立つことであり、PがQの必要条件であるとはQならばPが成り立つことである。",
+      "facts": [
+        {"id": "fact_p_implies_q", "keywords": ["PならばQ", "含意"], "value": true},
+        {"id": "fact_q_implies_p", "keywords": ["QならばP", "逆含意"], "value": true},
+        {"id": "fact_p_sufficient_for_q", "keywords": ["十分条件"], "value": true},
+        {"id": "fact_p_necessary_for_q", "keywords": ["必要条件"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-005-1",
+          "if": {"all": [{"fact": "fact_p_implies_q"}]},
+          "then": {"fact": "fact_p_sufficient_for_q", "value": true},
+          "explanation": "PならばQが成り立つとき、PはQの十分条件である。"
+        },
+        {
+          "id": "rule-005-2",
+          "if": {"all": [{"fact": "fact_q_implies_p"}]},
+          "then": {"fact": "fact_p_necessary_for_q", "value": true},
+          "explanation": "QならばPが成り立つとき、PはQの必要条件である。"
+        }
+      ]
+    },
+    {
+      "id": "logic-006",
+      "title": "否定推論（NOT）",
+      "content": "命題Pが偽であるとき、その否定¬Pは真である。否定推論は事実の否定から逆の事実を導く。",
+      "facts": [
+        {"id": "fact_p_false", "keywords": ["Pが偽", "Pでない"], "value": true},
+        {"id": "fact_not_p_true", "keywords": ["¬P", "Pの否定が真"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-006-1",
+          "if": {"all": [{"fact": "fact_p_false"}]},
+          "then": {"fact": "fact_not_p_true", "value": true},
+          "explanation": "Pが偽であるならば、その否定¬Pは真となる。"
+        }
+      ]
+    },
+    {
+      "id": "logic-007",
+      "title": "AND推論（連言）",
+      "content": "複数の条件がすべて満たされるとき、連言命題が真となる。AND推論は複数条件の同時成立を判定する。",
+      "facts": [
+        {"id": "fact_condition_a", "keywords": ["条件A"], "value": true},
+        {"id": "fact_condition_b", "keywords": ["条件B"], "value": true},
+        {"id": "fact_conjunction_ab", "keywords": ["AかつB"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-007-1",
+          "if": {"all": [{"fact": "fact_condition_a"}, {"fact": "fact_condition_b"}]},
+          "then": {"fact": "fact_conjunction_ab", "value": true},
+          "explanation": "条件Aと条件Bがともに真であるとき、連言A∧Bが真となる。"
+        }
+      ]
+    },
+    {
+      "id": "logic-008",
+      "title": "OR推論（選言）",
+      "content": "複数の条件のうち少なくとも一つが満たされるとき、選言命題が真となる。OR推論は複数の可能性を扱う。",
+      "facts": [
+        {"id": "fact_option_a", "keywords": ["選択肢A"], "value": true},
+        {"id": "fact_option_b", "keywords": ["選択肢B"], "value": true},
+        {"id": "fact_disjunction_ab", "keywords": ["AまたはB"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-008-1",
+          "if": {"any": [{"fact": "fact_option_a"}, {"fact": "fact_option_b"}]},
+          "then": {"fact": "fact_disjunction_ab", "value": true},
+          "explanation": "選択肢AまたはBの少なくとも一方が真であるとき、選言A∨Bが真となる。"
+        }
+      ]
+    },
+    {
+      "id": "logic-009",
+      "title": "連鎖推論（推移律）",
+      "content": "PならばQ、QならばRが成り立つとき、PならばRが成り立つ。連鎖推論は複数のルールをつなぐ。",
+      "facts": [
+        {"id": "fact_p_to_q", "keywords": ["P→Q"], "value": true},
+        {"id": "fact_q_to_r", "keywords": ["Q→R"], "value": true},
+        {"id": "fact_p_to_r", "keywords": ["P→R"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-009-1",
+          "if": {"all": [{"fact": "fact_p_to_q"}, {"fact": "fact_q_to_r"}]},
+          "then": {"fact": "fact_p_to_r", "value": true},
+          "explanation": "P→QとQ→Rがともに真であるとき、推移律によりP→Rが導かれる。"
+        }
+      ]
+    },
+    {
+      "id": "logic-010",
+      "title": "対偶の法則",
+      "content": "PならばQが成り立つとき、QでないならばPでないも成り立つ。対偶は元の含意と論理的に同値である。",
+      "facts": [
+        {"id": "fact_implication_pq", "keywords": ["P→Q"], "value": true},
+        {"id": "fact_contrapositive", "keywords": ["¬Q→¬P", "対偶"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-010-1",
+          "if": {"all": [{"fact": "fact_implication_pq"}]},
+          "then": {"fact": "fact_contrapositive", "value": true},
+          "explanation": "P→Qが真であるとき、その対偶¬Q→¬Pもまた真である。"
+        }
+      ]
+    },
+    {
+      "id": "logic-011",
+      "title": "仮説と事実の区別",
+      "content": "事実は観察や検証によって確認された命題であり、仮説は検証前の暫定的な説明である。両者を混同してはならない。",
+      "facts": [
+        {"id": "fact_observed_data", "keywords": ["観察データ", "検証済み"], "value": true},
+        {"id": "fact_tentative_explanation", "keywords": ["暫定的説明", "仮説"], "value": true},
+        {"id": "fact_hypothesis_distinguished", "keywords": ["仮説と事実の区別"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-011-1",
+          "if": {"all": [{"fact": "fact_observed_data"}, {"fact": "fact_tentative_explanation"}]},
+          "then": {"fact": "fact_hypothesis_distinguished", "value": true},
+          "explanation": "検証済みの観察データと暫定的説明が区別されるとき、仮説と事実が正しく区別される。"
+        }
+      ]
+    },
+    {
+      "id": "logic-012",
+      "title": "前提条件の確認",
+      "content": "推論を行う前に、前提条件が満たされているかを確認する必要がある。前提が欠けている場合、結論は導けない。",
+      "facts": [
+        {"id": "fact_premise_checked", "keywords": ["前提確認"], "value": true},
+        {"id": "fact_premise_satisfied", "keywords": ["前提充足"], "value": true},
+        {"id": "fact_inference_valid", "keywords": ["推論可能"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-012-1",
+          "if": {"all": [{"fact": "fact_premise_checked"}, {"fact": "fact_premise_satisfied"}]},
+          "then": {"fact": "fact_inference_valid", "value": true},
+          "explanation": "前提条件が確認され、かつ満たされているとき、推論は有効に実行できる。"
+        }
+      ]
+    },
+    {
+      "id": "logic-013",
+      "title": "原因と結果の区別",
+      "content": "原因は結果を生じさせる要因であり、結果は原因によって生じた事象である。因果関係の断定には十分な根拠が必要である。",
+      "facts": [
+        {"id": "fact_causal_factor", "keywords": ["原因候補"], "value": true},
+        {"id": "fact_effect_observed", "keywords": ["結果の観察"], "value": true},
+        {"id": "fact_causal_relation_established", "keywords": ["因果関係の成立"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-013-1",
+          "if": {"all": [{"fact": "fact_causal_factor"}, {"fact": "fact_effect_observed"}]},
+          "then": {"fact": "fact_causal_relation_established", "value": true},
+          "explanation": "原因候補と結果の観察が揃い、他の要因が排除されるとき、因果関係が成立すると判断できる。"
+        }
+      ]
+    },
+    {
+      "id": "logic-014",
+      "title": "複数情報からの結論導出",
+      "content": "複数の独立した情報が同一の結論を支持するとき、その結論の確信度は高まる。",
+      "facts": [
+        {"id": "fact_info_source_1", "keywords": ["情報源1"], "value": true},
+        {"id": "fact_info_source_2", "keywords": ["情報源2"], "value": true},
+        {"id": "fact_conclusion_supported", "keywords": ["結論の支持"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-014-1",
+          "if": {"all": [{"fact": "fact_info_source_1"}, {"fact": "fact_info_source_2"}]},
+          "then": {"fact": "fact_conclusion_supported", "value": true},
+          "explanation": "複数の独立した情報源が同じ結論を支持するとき、その結論は支持されていると判断できる。"
+        }
+      ]
+    },
+    {
+      "id": "logic-015",
+      "title": "問題の原因分析",
+      "content": "問題が発生した場合、その原因を特定するために症状と要因を関連付けて分析する。",
+      "facts": [
+        {"id": "fact_problem_symptom", "keywords": ["問題の症状"], "value": true},
+        {"id": "fact_potential_cause", "keywords": ["原因候補"], "value": true},
+        {"id": "fact_root_cause_identified", "keywords": ["根本原因の特定"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-015-1",
+          "if": {"all": [{"fact": "fact_problem_symptom"}, {"fact": "fact_potential_cause"}]},
+          "then": {"fact": "fact_root_cause_identified", "value": true},
+          "explanation": "問題の症状と原因候補が関連付けられ、検証されるとき、根本原因が特定される。"
+        }
+      ]
+    },
+    {
+      "id": "math-001",
+      "title": "三角形の内角の和",
+      "content": "ユークリッド幾何学において、三角形の内角の和は180度である。",
+      "facts": [
+        {"id": "fact_triangle_defined", "keywords": ["三角形"], "value": true},
+        {"id": "fact_euclidean_geometry", "keywords": ["ユークリッド幾何学"], "value": true},
+        {"id": "fact_triangle_angle_sum_180", "keywords": ["内角の和180度"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-math-001-1",
+          "if": {"all": [{"fact": "fact_triangle_defined"}, {"fact": "fact_euclidean_geometry"}]},
+          "then": {"fact": "fact_triangle_angle_sum_180", "value": true},
+          "explanation": "ユークリッド幾何学において三角形が定義されるとき、その内角の和は180度である。"
+        }
+      ]
+    },
+    {
+      "id": "math-002",
+      "title": "偶数と奇数の和",
+      "content": "偶数と偶数の和は偶数であり、奇数と奇数の和も偶数である。偶数と奇数の和は奇数である。",
+      "facts": [
+        {"id": "fact_even_plus_even", "keywords": ["偶数+偶数"], "value": true},
+        {"id": "fact_odd_plus_odd", "keywords": ["奇数+奇数"], "value": true},
+        {"id": "fact_even_plus_odd", "keywords": ["偶数+奇数"], "value": true},
+        {"id": "fact_sum_even_result", "keywords": ["和が偶数"], "value": true},
+        {"id": "fact_sum_odd_result", "keywords": ["和が奇数"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-math-002-1",
+          "if": {"any": [{"fact": "fact_even_plus_even"}, {"fact": "fact_odd_plus_odd"}]},
+          "then": {"fact": "fact_sum_even_result", "value": true},
+          "explanation": "偶数+偶数または奇数+奇数のいずれかであるとき、和は偶数となる。"
+        },
+        {
+          "id": "rule-math-002-2",
+          "if": {"all": [{"fact": "fact_even_plus_odd"}]},
+          "then": {"fact": "fact_sum_odd_result", "value": true},
+          "explanation": "偶数と奇数の和であるとき、和は奇数となる。"
+        }
+      ]
+    },
+    {
+      "id": "math-003",
+      "title": "二次方程式の判別式",
+      "content": "二次方程式ax²+bx+c=0の判別式D=b²-4acが正なら実数解2つ、0なら重解1つ、負なら実数解なしである。",
+      "facts": [
+        {"id": "fact_quadratic_equation", "keywords": ["二次方程式"], "value": true},
+        {"id": "fact_discriminant_positive", "keywords": ["判別式D>0"], "value": true},
+        {"id": "fact_discriminant_zero", "keywords": ["判別式D=0"], "value": true},
+        {"id": "fact_discriminant_negative", "keywords": ["判別式D<0"], "value": true},
+        {"id": "fact_two_real_roots", "keywords": ["実数解2つ"], "value": true},
+        {"id": "fact_one_double_root", "keywords": ["重解"], "value": true},
+        {"id": "fact_no_real_roots", "keywords": ["実数解なし"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-math-003-1",
+          "if": {"all": [{"fact": "fact_quadratic_equation"}, {"fact": "fact_discriminant_positive"}]},
+          "then": {"fact": "fact_two_real_roots", "value": true},
+          "explanation": "二次方程式で判別式D>0のとき、異なる2つの実数解を持つ。"
+        },
+        {
+          "id": "rule-math-003-2",
+          "if": {"all": [{"fact": "fact_quadratic_equation"}, {"fact": "fact_discriminant_zero"}]},
+          "then": {"fact": "fact_one_double_root", "value": true},
+          "explanation": "二次方程式で判別式D=0のとき、重解を1つ持つ。"
+        },
+        {
+          "id": "rule-math-003-3",
+          "if": {"all": [{"fact": "fact_quadratic_equation"}, {"fact": "fact_discriminant_negative"}]},
+          "then": {"fact": "fact_no_real_roots", "value": true},
+          "explanation": "二次方程式で判別式D<0のとき、実数解を持たない。"
+        }
+      ]
+    },
+    {
+      "id": "math-004",
+      "title": "素数判定の基本",
+      "content": "1より大きい自然数で、1とその数自身以外に正の約数を持たない数を素数という。",
+      "facts": [
+        {"id": "fact_natural_number_gt1", "keywords": ["1より大きい自然数"], "value": true},
+        {"id": "fact_no_divisor_other_than_1_and_self", "keywords": ["1と自身以外に約数なし"], "value": true},
+        {"id": "fact_prime_number", "keywords": ["素数"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-math-004-1",
+          "if": {"all": [{"fact": "fact_natural_number_gt1"}, {"fact": "fact_no_divisor_other_than_1_and_self"}]},
+          "then": {"fact": "fact_prime_number", "value": true},
+          "explanation": "1より大きい自然数で1と自身以外に約数を持たないとき、その数は素数である。"
+        }
+      ]
+    },
+    {
+      "id": "math-005",
+      "title": "比例関係",
+      "content": "2つの量が比例するとき、一方が2倍になれば他方も2倍になる。比例定数kを用いてy=kxと表される。",
+      "facts": [
+        {"id": "fact_proportional_relationship", "keywords": ["比例関係"], "value": true},
+        {"id": "fact_proportional_constant", "keywords": ["比例定数k"], "value": true},
+        {"id": "fact_linear_equation_ykx", "keywords": ["y=kx"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-math-005-1",
+          "if": {"all": [{"fact": "fact_proportional_relationship"}, {"fact": "fact_proportional_constant"}]},
+          "then": {"fact": "fact_linear_equation_ykx", "value": true},
+          "explanation": "比例関係があり比例定数kが定まるとき、y=kxの線形関係が成り立つ。"
+        }
+      ]
+    },
+    {
+      "id": "math-006",
+      "title": "集合の包含関係",
+      "content": "集合Aのすべての要素が集合Bに含まれるとき、AはBの部分集合であるという。",
+      "facts": [
+        {"id": "fact_set_a_elements_in_b", "keywords": ["Aの要素がすべてBに含まれる"], "value": true},
+        {"id": "fact_a_subset_of_b", "keywords": ["A⊆B", "部分集合"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-math-006-1",
+          "if": {"all": [{"fact": "fact_set_a_elements_in_b"}]},
+          "then": {"fact": "fact_a_subset_of_b", "value": true},
+          "explanation": "集合Aのすべての要素が集合Bに含まれるとき、AはBの部分集合である。"
+        }
+      ]
+    },
+    {
+      "id": "math-007",
+      "title": "確率の基本性質",
+      "content": "確率は0以上1以下であり、全事象の確率は1である。排反事象の確率は加算できる。",
+      "facts": [
+        {"id": "fact_probability_defined", "keywords": ["確率"], "value": true},
+        {"id": "fact_probability_range", "keywords": ["0≤P≤1"], "value": true},
+        {"id": "fact_total_probability_one", "keywords": ["全事象の確率1"], "value": true},
+        {"id": "fact_mutually_exclusive_events", "keywords": ["排反事象"], "value": true},
+        {"id": "fact_probability_additive", "keywords": ["確率の加算"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-math-007-1",
+          "if": {"all": [{"fact": "fact_probability_defined"}]},
+          "then": {"fact": "fact_probability_range", "value": true},
+          "explanation": "確率が定義されるとき、その値は0以上1以下である。"
+        },
+        {
+          "id": "rule-math-007-2",
+          "if": {"all": [{"fact": "fact_mutually_exclusive_events"}]},
+          "then": {"fact": "fact_probability_additive", "value": true},
+          "explanation": "2つの事象が排反であるとき、それらの確率は加算できる。"
+        }
+      ]
+    },
+    {
+      "id": "math-008",
+      "title": "関数の単調性",
+      "content": "関数f(x)が区間内で常に増加するとき単調増加といい、常に減少するとき単調減少という。",
+      "facts": [
+        {"id": "fact_function_increasing", "keywords": ["常に増加"], "value": true},
+        {"id": "fact_function_decreasing", "keywords": ["常に減少"], "value": true},
+        {"id": "fact_monotonic_increasing", "keywords": ["単調増加"], "value": true},
+        {"id": "fact_monotonic_decreasing", "keywords": ["単調減少"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-math-008-1",
+          "if": {"all": [{"fact": "fact_function_increasing"}]},
+          "then": {"fact": "fact_monotonic_increasing", "value": true},
+          "explanation": "関数が区間内で常に増加するとき、その関数は単調増加である。"
+        },
+        {
+          "id": "rule-math-008-2",
+          "if": {"all": [{"fact": "fact_function_decreasing"}]},
+          "then": {"fact": "fact_monotonic_decreasing", "value": true},
+          "explanation": "関数が区間内で常に減少するとき、その関数は単調減少である。"
+        }
+      ]
+    },
+    {
+      "id": "physics-001",
+      "title": "ニュートンの第一法則（慣性の法則）",
+      "content": "外力が働かない限り、物体は静止状態または等速直線運動を続ける。",
+      "facts": [
+        {"id": "fact_no_external_force", "keywords": ["外力なし"], "value": true},
+        {"id": "fact_object_at_rest_or_uniform_motion", "keywords": ["静止または等速直線運動"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-physics-001-1",
+          "if": {"all": [{"fact": "fact_no_external_force"}]},
+          "then": {"fact": "fact_object_at_rest_or_uniform_motion", "value": true},
+          "explanation": "物体に外力が働かないとき、慣性の法則により静止または等速直線運動を続ける。"
+        }
+      ]
+    },
+    {
+      "id": "physics-002",
+      "title": "ニュートンの第二法則（運動方程式）",
+      "content": "物体に働く力Fは質量mと加速度aの積に等しい（F=ma）。",
+      "facts": [
+        {"id": "fact_force_applied", "keywords": ["力F"], "value": true},
+        {"id": "fact_mass_known", "keywords": ["質量m"], "value": true},
+        {"id": "fact_acceleration_calculable", "keywords": ["加速度a"], "value": true},
+        {"id": "fact_f_equals_ma", "keywords": ["F=ma"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-physics-002-1",
+          "if": {"all": [{"fact": "fact_force_applied"}, {"fact": "fact_mass_known"}]},
+          "then": {"fact": "fact_f_equals_ma", "value": true},
+          "explanation": "力と質量が与えられるとき、運動方程式F=maにより加速度が定まる。"
+        },
+        {
+          "id": "rule-physics-002-2",
+          "if": {"all": [{"fact": "fact_f_equals_ma"}, {"fact": "fact_mass_known"}]},
+          "then": {"fact": "fact_acceleration_calculable", "value": true},
+          "explanation": "F=maと質量mが既知であるとき、加速度a=F/mを計算できる。"
+        }
+      ]
+    },
+    {
+      "id": "physics-003",
+      "title": "エネルギー保存則",
+      "content": "外部からの仕事がない孤立系では、力学的エネルギーの総量は保存される。",
+      "facts": [
+        {"id": "fact_isolated_system", "keywords": ["孤立系"], "value": true},
+        {"id": "fact_no_external_work", "keywords": ["外部仕事なし"], "value": true},
+        {"id": "fact_energy_conserved", "keywords": ["力学的エネルギー保存"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-physics-003-1",
+          "if": {"all": [{"fact": "fact_isolated_system"}, {"fact": "fact_no_external_work"}]},
+          "then": {"fact": "fact_energy_conserved", "value": true},
+          "explanation": "孤立系で外部からの仕事がないとき、力学的エネルギーの総量は保存される。"
+        }
+      ]
+    },
+    {
+      "id": "physics-004",
+      "title": "熱伝導",
+      "content": "温度差のある物体間では、高温側から低温側へ熱が伝導する。",
+      "facts": [
+        {"id": "fact_temperature_difference", "keywords": ["温度差"], "value": true},
+        {"id": "fact_heat_conduction", "keywords": ["熱伝導"], "value": true},
+        {"id": "fact_heat_flows_hot_to_cold", "keywords": ["高温から低温へ熱移動"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-physics-004-1",
+          "if": {"all": [{"fact": "fact_temperature_difference"}, {"fact": "fact_heat_conduction"}]},
+          "then": {"fact": "fact_heat_flows_hot_to_cold", "value": true},
+          "explanation": "温度差があり熱伝導が起こるとき、熱は高温側から低温側へ移動する。"
+        }
+      ]
+    },
+    {
+      "id": "physics-005",
+      "title": "光の反射法則",
+      "content": "光が鏡面で反射するとき、入射角と反射角は等しい。",
+      "facts": [
+        {"id": "fact_light_incident_on_mirror", "keywords": ["光の入射"], "value": true},
+        {"id": "fact_angle_incidence", "keywords": ["入射角"], "value": true},
+        {"id": "fact_angle_reflection_equal", "keywords": ["反射角=入射角"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-physics-005-1",
+          "if": {"all": [{"fact": "fact_light_incident_on_mirror"}, {"fact": "fact_angle_incidence"}]},
+          "then": {"fact": "fact_angle_reflection_equal", "value": true},
+          "explanation": "光が鏡面に入射するとき、反射の法則により反射角は入射角に等しい。"
+        }
+      ]
+    },
+    {
+      "id": "chemistry-001",
+      "title": "水の電気分解",
+      "content": "水に電流を流すと、水素と酸素に分解される。",
+      "facts": [
+        {"id": "fact_water_electrolysis", "keywords": ["水の電気分解"], "value": true},
+        {"id": "fact_hydrogen_produced", "keywords": ["水素発生"], "value": true},
+        {"id": "fact_oxygen_produced", "keywords": ["酸素発生"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-chem-001-1",
+          "if": {"all": [{"fact": "fact_water_electrolysis"}]},
+          "then": {"fact": "fact_hydrogen_produced", "value": true},
+          "explanation": "水の電気分解では陰極に水素が発生する。"
+        },
+        {
+          "id": "rule-chem-001-2",
+          "if": {"all": [{"fact": "fact_water_electrolysis"}]},
+          "then": {"fact": "fact_oxygen_produced", "value": true},
+          "explanation": "水の電気分解では陽極に酸素が発生する。"
+        }
+      ]
+    },
+    {
+      "id": "chemistry-002",
+      "title": "酸と塩基の中和",
+      "content": "酸と塩基が反応すると中和反応が起こり、塩と水が生成される。",
+      "facts": [
+        {"id": "fact_acid_present", "keywords": ["酸"], "value": true},
+        {"id": "fact_base_present", "keywords": ["塩基"], "value": true},
+        {"id": "fact_neutralization", "keywords": ["中和反応"], "value": true},
+        {"id": "fact_salt_and_water", "keywords": ["塩と水の生成"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-chem-002-1",
+          "if": {"all": [{"fact": "fact_acid_present"}, {"fact": "fact_base_present"}]},
+          "then": {"fact": "fact_neutralization", "value": true},
+          "explanation": "酸と塩基が存在するとき、中和反応が起こる。"
+        },
+        {
+          "id": "rule-chem-002-2",
+          "if": {"all": [{"fact": "fact_neutralization"}]},
+          "then": {"fact": "fact_salt_and_water", "value": true},
+          "explanation": "中和反応が起こるとき、塩と水が生成される。"
+        }
+      ]
+    },
+    {
+      "id": "chemistry-003",
+      "title": "燃焼の条件",
+      "content": "燃焼には可燃物、酸素、点火源の3要素が必要である。",
+      "facts": [
+        {"id": "fact_combustible_material", "keywords": ["可燃物"], "value": true},
+        {"id": "fact_oxygen_present", "keywords": ["酸素"], "value": true},
+        {"id": "fact_ignition_source", "keywords": ["点火源"], "value": true},
+        {"id": "fact_combustion_occurs", "keywords": ["燃焼"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-chem-003-1",
+          "if": {"all": [{"fact": "fact_combustible_material"}, {"fact": "fact_oxygen_present"}, {"fact": "fact_ignition_source"}]},
+          "then": {"fact": "fact_combustion_occurs", "value": true},
+          "explanation": "可燃物、酸素、点火源の三要素が揃うとき燃焼が起こる。"
+        }
+      ]
+    },
+    {
+      "id": "biology-001",
+      "title": "光合成の条件",
+      "content": "植物は光、水、二酸化炭素を用いて光合成を行い、酸素とグルコースを生成する。",
+      "facts": [
+        {"id": "fact_plant_present", "keywords": ["植物"], "value": true},
+        {"id": "fact_light_available", "keywords": ["光"], "value": true},
+        {"id": "fact_water_available", "keywords": ["水"], "value": true},
+        {"id": "fact_co2_available", "keywords": ["二酸化炭素"], "value": true},
+        {"id": "fact_photosynthesis_occurs", "keywords": ["光合成"], "value": true},
+        {"id": "fact_oxygen_produced_bio", "keywords": ["酸素生成"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-bio-001-1",
+          "if": {"all": [{"fact": "fact_plant_present"}, {"fact": "fact_light_available"}, {"fact": "fact_water_available"}, {"fact": "fact_co2_available"}]},
+          "then": {"fact": "fact_photosynthesis_occurs", "value": true},
+          "explanation": "植物が光・水・二酸化炭素を得られるとき、光合成が行われる。"
+        },
+        {
+          "id": "rule-bio-001-2",
+          "if": {"all": [{"fact": "fact_photosynthesis_occurs"}]},
+          "then": {"fact": "fact_oxygen_produced_bio", "value": true},
+          "explanation": "光合成が行われるとき、副産物として酸素が生成される。"
+        }
+      ]
+    },
+    {
+      "id": "biology-002",
+      "title": "食物連鎖",
+      "content": "生態系において、生物は捕食・被食の関係で連鎖的につながっている。",
+      "facts": [
+        {"id": "fact_producer_present", "keywords": ["生産者"], "value": true},
+        {"id": "fact_consumer_present", "keywords": ["消費者"], "value": true},
+        {"id": "fact_food_chain_established", "keywords": ["食物連鎖"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-bio-002-1",
+          "if": {"all": [{"fact": "fact_producer_present"}, {"fact": "fact_consumer_present"}]},
+          "then": {"fact": "fact_food_chain_established", "value": true},
+          "explanation": "生産者と消費者が存在するとき、それらの間の捕食関係により食物連鎖が成立する。"
+        }
+      ]
+    },
+    {
+      "id": "biology-003",
+      "title": "遺伝の基本法則",
+      "content": "メンデルの法則により、遺伝形質は親から子へ遺伝子を通じて伝わる。",
+      "facts": [
+        {"id": "fact_parent_genes", "keywords": ["親の遺伝子"], "value": true},
+        {"id": "fact_mendel_law", "keywords": ["メンデルの法則"], "value": true},
+        {"id": "fact_trait_inherited", "keywords": ["形質の遺伝"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-bio-003-1",
+          "if": {"all": [{"fact": "fact_parent_genes"}, {"fact": "fact_mendel_law"}]},
+          "then": {"fact": "fact_trait_inherited", "value": true},
+          "explanation": "親の遺伝子がメンデルの法則に従って伝達されるとき、形質が子に遺伝する。"
+        }
+      ]
+    },
+    {
+      "id": "cs-001",
+      "title": "アルゴリズムの条件",
+      "content": "アルゴリズムは有限性、明確性、入力、出力、有効性の5つの条件を満たす必要がある。",
+      "facts": [
+        {"id": "fact_finiteness", "keywords": ["有限性"], "value": true},
+        {"id": "fact_definiteness", "keywords": ["明確性"], "value": true},
+        {"id": "fact_input_specified", "keywords": ["入力"], "value": true},
+        {"id": "fact_output_specified", "keywords": ["出力"], "value": true},
+        {"id": "fact_effectiveness", "keywords": ["有効性"], "value": true},
+        {"id": "fact_algorithm_valid", "keywords": ["アルゴリズムの成立"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-cs-001-1",
+          "if": {"all": [{"fact": "fact_finiteness"}, {"fact": "fact_definiteness"}, {"fact": "fact_input_specified"}, {"fact": "fact_output_specified"}, {"fact": "fact_effectiveness"}]},
+          "then": {"fact": "fact_algorithm_valid", "value": true},
+          "explanation": "5つの条件がすべて満たされるとき、その手続きはアルゴリズムとして有効である。"
+        }
+      ]
+    },
+    {
+      "id": "cs-002",
+      "title": "ブール代数の基本演算",
+      "content": "ブール代数ではAND、OR、NOTの基本演算が定義され、論理回路の基礎となる。",
+      "facts": [
+        {"id": "fact_boolean_and", "keywords": ["AND演算"], "value": true},
+        {"id": "fact_boolean_or", "keywords": ["OR演算"], "value": true},
+        {"id": "fact_boolean_not", "keywords": ["NOT演算"], "value": true},
+        {"id": "fact_logic_circuit_basis", "keywords": ["論理回路の基礎"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-cs-002-1",
+          "if": {"all": [{"fact": "fact_boolean_and"}, {"fact": "fact_boolean_or"}, {"fact": "fact_boolean_not"}]},
+          "then": {"fact": "fact_logic_circuit_basis", "value": true},
+          "explanation": "AND、OR、NOTの基本演算が定義されるとき、これらは論理回路の基礎となる。"
+        }
+      ]
+    },
+    {
+      "id": "cs-003",
+      "title": "計算量のオーダー記法",
+      "content": "アルゴリズムの効率はO記法で表され、入力サイズnに対する増加率を示す。",
+      "facts": [
+        {"id": "fact_algorithm_efficiency", "keywords": ["アルゴリズム効率"], "value": true},
+        {"id": "fact_big_o_notation", "keywords": ["O記法"], "value": true},
+        {"id": "fact_growth_rate", "keywords": ["増加率"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-cs-003-1",
+          "if": {"all": [{"fact": "fact_algorithm_efficiency"}, {"fact": "fact_big_o_notation"}]},
+          "then": {"fact": "fact_growth_rate", "value": true},
+          "explanation": "アルゴリズムの効率をO記法で表すとき、入力サイズに対する増加率が示される。"
+        }
+      ]
+    },
+    {
+      "id": "programming-001",
+      "title": "条件分岐（if文）",
+      "content": "プログラムにおいて、条件が真の場合と偽の場合で異なる処理を実行する制御構造をif文という。",
+      "facts": [
+        {"id": "fact_condition_evaluated", "keywords": ["条件評価"], "value": true},
+        {"id": "fact_condition_true", "keywords": ["条件が真"], "value": true},
+        {"id": "fact_condition_false", "keywords": ["条件が偽"], "value": true},
+        {"id": "fact_branch_true", "keywords": ["真の場合の処理"], "value": true},
+        {"id": "fact_branch_false", "keywords": ["偽の場合の処理"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-prog-001-1",
+          "if": {"all": [{"fact": "fact_condition_evaluated"}, {"fact": "fact_condition_true"}]},
+          "then": {"fact": "fact_branch_true", "value": true},
+          "explanation": "条件が評価され真であるとき、真の場合の処理が実行される。"
+        },
+        {
+          "id": "rule-prog-001-2",
+          "if": {"all": [{"fact": "fact_condition_evaluated"}, {"fact": "fact_condition_false"}]},
+          "then": {"fact": "fact_branch_false", "value": true},
+          "explanation": "条件が評価され偽であるとき、偽の場合の処理が実行される。"
+        }
+      ]
+    },
+    {
+      "id": "programming-002",
+      "title": "ループ処理",
+      "content": "同じ処理を繰り返し実行する制御構造をループといい、for文やwhile文がある。",
+      "facts": [
+        {"id": "fact_repetition_needed", "keywords": ["繰り返し処理"], "value": true},
+        {"id": "fact_loop_condition", "keywords": ["ループ条件"], "value": true},
+        {"id": "fact_loop_executed", "keywords": ["ループ実行"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-prog-002-1",
+          "if": {"all": [{"fact": "fact_repetition_needed"}, {"fact": "fact_loop_condition"}]},
+          "then": {"fact": "fact_loop_executed", "value": true},
+          "explanation": "繰り返し処理が必要でループ条件が定義されるとき、ループが実行される。"
+        }
+      ]
+    },
+    {
+      "id": "programming-003",
+      "title": "変数のスコープ",
+      "content": "変数の有効範囲をスコープといい、ローカルスコープとグローバルスコープがある。",
+      "facts": [
+        {"id": "fact_variable_declared", "keywords": ["変数宣言"], "value": true},
+        {"id": "fact_local_scope", "keywords": ["ローカルスコープ"], "value": true},
+        {"id": "fact_global_scope", "keywords": ["グローバルスコープ"], "value": true},
+        {"id": "fact_scope_determined", "keywords": ["スコープ決定"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-prog-003-1",
+          "if": {"all": [{"fact": "fact_variable_declared"}]},
+          "then": {"fact": "fact_scope_determined", "value": true},
+          "explanation": "変数が宣言されるとき、その有効範囲（スコープ）が決定される。"
+        }
+      ]
+    },
+    {
+      "id": "economics-001",
+      "title": "需要と供給の法則",
+      "content": "一般に、価格が上昇すると需要は減少し供給は増加する。価格が下落すると需要は増加し供給は減少する。",
+      "facts": [
+        {"id": "fact_price_increase", "keywords": ["価格上昇"], "value": true},
+        {"id": "fact_price_decrease", "keywords": ["価格下落"], "value": true},
+        {"id": "fact_demand_decrease", "keywords": ["需要減少"], "value": true},
+        {"id": "fact_demand_increase", "keywords": ["需要増加"], "value": true},
+        {"id": "fact_supply_increase", "keywords": ["供給増加"], "value": true},
+        {"id": "fact_supply_decrease", "keywords": ["供給減少"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-econ-001-1",
+          "if": {"all": [{"fact": "fact_price_increase"}]},
+          "then": {"fact": "fact_demand_decrease", "value": true},
+          "explanation": "価格が上昇するとき、需要は減少する傾向がある。"
+        },
+        {
+          "id": "rule-econ-001-2",
+          "if": {"all": [{"fact": "fact_price_increase"}]},
+          "then": {"fact": "fact_supply_increase", "value": true},
+          "explanation": "価格が上昇するとき、供給は増加する傾向がある。"
+        },
+        {
+          "id": "rule-econ-001-3",
+          "if": {"all": [{"fact": "fact_price_decrease"}]},
+          "then": {"fact": "fact_demand_increase", "value": true},
+          "explanation": "価格が下落するとき、需要は増加する傾向がある。"
+        }
+      ]
+    },
+    {
+      "id": "economics-002",
+      "title": "機会費用",
+      "content": "ある選択をしたときに失われる最大の価値を持つ代替案の価値を機会費用という。",
+      "facts": [
+        {"id": "fact_choice_made", "keywords": ["選択"], "value": true},
+        {"id": "fact_alternative_forgone", "keywords": ["代替案の放棄"], "value": true},
+        {"id": "fact_opportunity_cost", "keywords": ["機会費用"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-econ-002-1",
+          "if": {"all": [{"fact": "fact_choice_made"}, {"fact": "fact_alternative_forgone"}]},
+          "then": {"fact": "fact_opportunity_cost", "value": true},
+          "explanation": "選択が行われ代替案が放棄されるとき、その放棄された最大価値が機会費用となる。"
+        }
+      ]
+    },
+    {
+      "id": "statistics-001",
+      "title": "平均値と中央値",
+      "content": "平均値は全データの合計をデータ数で割った値、中央値はデータを順に並べたときの中央の値である。",
+      "facts": [
+        {"id": "fact_data_set", "keywords": ["データ集合"], "value": true},
+        {"id": "fact_mean_calculable", "keywords": ["平均値算出"], "value": true},
+        {"id": "fact_median_calculable", "keywords": ["中央値算出"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-stat-001-1",
+          "if": {"all": [{"fact": "fact_data_set"}]},
+          "then": {"fact": "fact_mean_calculable", "value": true},
+          "explanation": "データ集合があれば、合計をデータ数で割ることで平均値を算出できる。"
+        },
+        {
+          "id": "rule-stat-001-2",
+          "if": {"all": [{"fact": "fact_data_set"}]},
+          "then": {"fact": "fact_median_calculable", "value": true},
+          "explanation": "データ集合を順に並べることで中央値を算出できる。"
+        }
+      ]
+    },
+    {
+      "id": "statistics-002",
+      "title": "相関と因果の違い",
+      "content": "2つの変数に相関があっても、直ちに因果関係があるとは言えない。相関は因果の必要条件でも十分条件でもない。",
+      "facts": [
+        {"id": "fact_correlation_observed", "keywords": ["相関関係"], "value": true},
+        {"id": "fact_causation_not_implied", "keywords": ["因果関係は未証明"], "value": true},
+        {"id": "fact_correlation_causation_distinguished", "keywords": ["相関と因果の区別"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-stat-002-1",
+          "if": {"all": [{"fact": "fact_correlation_observed"}]},
+          "then": {"fact": "fact_causation_not_implied", "value": true},
+          "explanation": "相関が観察されても、それだけでは因果関係を結論づけることはできない。"
+        },
+        {
+          "id": "rule-stat-002-2",
+          "if": {"all": [{"fact": "fact_correlation_observed"}, {"fact": "fact_causation_not_implied"}]},
+          "then": {"fact": "fact_correlation_causation_distinguished", "value": true},
+          "explanation": "相関はあるが因果は未証明であるとき、相関と因果が区別される。"
+        }
+      ]
+    },
+    {
+      "id": "statistics-003",
+      "title": "仮説検定の基本",
+      "content": "仮説検定では帰無仮説と対立仮説を設定し、データから帰無仮説を棄却するかどうかを判断する。",
+      "facts": [
+        {"id": "fact_null_hypothesis_set", "keywords": ["帰無仮説"], "value": true},
+        {"id": "fact_alternative_hypothesis_set", "keywords": ["対立仮説"], "value": true},
+        {"id": "fact_significance_level", "keywords": ["有意水準"], "value": true},
+        {"id": "fact_hypothesis_test_performed", "keywords": ["仮説検定の実行"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-stat-003-1",
+          "if": {"all": [{"fact": "fact_null_hypothesis_set"}, {"fact": "fact_alternative_hypothesis_set"}, {"fact": "fact_significance_level"}]},
+          "then": {"fact": "fact_hypothesis_test_performed", "value": true},
+          "explanation": "帰無仮説・対立仮説・有意水準が設定されるとき、仮説検定を実行できる。"
+        }
+      ]
+    },
+    {
+      "id": "psychology-001",
+      "title": "条件づけ（古典的）",
+      "content": "中性刺激と無条件刺激を対提示することで、中性刺激が条件刺激となり条件反応を引き起こす。",
+      "facts": [
+        {"id": "fact_neutral_stimulus", "keywords": ["中性刺激"], "value": true},
+        {"id": "fact_unconditioned_stimulus", "keywords": ["無条件刺激"], "value": true},
+        {"id": "fact_pairing", "keywords": ["対提示"], "value": true},
+        {"id": "fact_conditioned_response", "keywords": ["条件反応"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-psych-001-1",
+          "if": {"all": [{"fact": "fact_neutral_stimulus"}, {"fact": "fact_unconditioned_stimulus"}, {"fact": "fact_pairing"}]},
+          "then": {"fact": "fact_conditioned_response", "value": true},
+          "explanation": "中性刺激と無条件刺激が対提示されると、中性刺激が条件刺激となり条件反応が生じる。"
+        }
+      ]
+    },
+    {
+      "id": "psychology-002",
+      "title": "認知バイアス（確証バイアス）",
+      "content": "確証バイアスとは、自分の信念を支持する情報ばかりを集め、反証する情報を無視する傾向である。",
+      "facts": [
+        {"id": "fact_belief_held", "keywords": ["信念"], "value": true},
+        {"id": "fact_supporting_info_selected", "keywords": ["支持情報の選択"], "value": true},
+        {"id": "fact_confirmatory_bias", "keywords": ["確証バイアス"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-psych-002-1",
+          "if": {"all": [{"fact": "fact_belief_held"}, {"fact": "fact_supporting_info_selected"}]},
+          "then": {"fact": "fact_confirmatory_bias", "value": true},
+          "explanation": "信念を保持し、それを支持する情報ばかりを選択するとき、確証バイアスが働いている。"
+        }
+      ]
+    },
+    {
+      "id": "philosophy-001",
+      "title": "デカルトの方法的懐疑",
+      "content": "デカルトはすべてを疑い、疑いえない確実な命題として「我思う、ゆえに我あり」に到達した。",
+      "facts": [
+        {"id": "fact_methodological_doubt", "keywords": ["方法的懐疑"], "value": true},
+        {"id": "fact_cogito", "keywords": ["我思うゆえに我あり"], "value": true},
+        {"id": "fact_certainty_established", "keywords": ["確実性の確立"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-phil-001-1",
+          "if": {"all": [{"fact": "fact_methodological_doubt"}]},
+          "then": {"fact": "fact_cogito", "value": true},
+          "explanation": "すべてを疑う方法的懐疑を徹底すると、疑っている自己の存在だけは疑えないという命題に到達する。"
+        },
+        {
+          "id": "rule-phil-001-2",
+          "if": {"all": [{"fact": "fact_cogito"}]},
+          "then": {"fact": "fact_certainty_established", "value": true},
+          "explanation": "「我思う、ゆえに我あり」が確実な命題として成立するとき、哲学の確実な基盤が確立される。"
+        }
+      ]
+    },
+    {
+      "id": "philosophy-002",
+      "title": "ヒュームの因果論",
+      "content": "ヒュームは因果関係は経験における習慣的連合に過ぎず、必然的な結びつきは観察できないと主張した。",
+      "facts": [
+        {"id": "fact_constant_conjunction", "keywords": ["恒常的連接"], "value": true},
+        {"id": "fact_causal_habit", "keywords": ["因果の習慣"], "value": true},
+        {"id": "fact_causal_necessity_unknown", "keywords": ["因果の必然性は不明"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-phil-002-1",
+          "if": {"all": [{"fact": "fact_constant_conjunction"}]},
+          "then": {"fact": "fact_causal_habit", "value": true},
+          "explanation": "事象の恒常的連接を観察すると、人間は因果の観念を習慣的に形成する。"
+        },
+        {
+          "id": "rule-phil-002-2",
+          "if": {"all": [{"fact": "fact_causal_habit"}]},
+          "then": {"fact": "fact_causal_necessity_unknown", "value": true},
+          "explanation": "因果の観念が習慣から生じるならば、因果の必然性は経験からは知りえない。"
+        }
+      ]
+    },
+    {
+      "id": "history-001",
+      "title": "産業革命の開始条件",
+      "content": "18世紀後半のイギリスで産業革命が始まった背景には、石炭資源、資本蓄積、植民地市場、技術革新があった。",
+      "facts": [
+        {"id": "fact_coal_resources", "keywords": ["石炭資源"], "value": true},
+        {"id": "fact_capital_accumulation", "keywords": ["資本蓄積"], "value": true},
+        {"id": "fact_colonial_market", "keywords": ["植民地市場"], "value": true},
+        {"id": "fact_technological_innovation", "keywords": ["技術革新"], "value": true},
+        {"id": "fact_industrial_revolution_start", "keywords": ["産業革命開始"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-hist-001-1",
+          "if": {"all": [{"fact": "fact_coal_resources"}, {"fact": "fact_capital_accumulation"}, {"fact": "fact_colonial_market"}, {"fact": "fact_technological_innovation"}]},
+          "then": {"fact": "fact_industrial_revolution_start", "value": true},
+          "explanation": "石炭・資本・市場・技術の条件が揃ったとき、産業革命が開始されたと歴史学的に説明される。"
+        }
+      ]
+    },
+    {
+      "id": "history-002",
+      "title": "フランス革命の理念",
+      "content": "フランス革命は自由・平等・友愛の理念を掲げ、絶対王政を打倒した。",
+      "facts": [
+        {"id": "fact_absolute_monarchy", "keywords": ["絶対王政"], "value": true},
+        {"id": "fact_enlightenment_ideas", "keywords": ["啓蒙思想"], "value": true},
+        {"id": "fact_french_revolution", "keywords": ["フランス革命"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-hist-002-1",
+          "if": {"all": [{"fact": "fact_absolute_monarchy"}, {"fact": "fact_enlightenment_ideas"}]},
+          "then": {"fact": "fact_french_revolution", "value": true},
+          "explanation": "絶対王政下で啓蒙思想が広まり、それがフランス革命の思想的背景となった。"
+        }
+      ]
+    },
+    {
+      "id": "geography-001",
+      "title": "プレートテクトニクスと地震",
+      "content": "地球の表面は複数のプレートに分かれており、プレート境界での運動が地震や火山活動を引き起こす。",
+      "facts": [
+        {"id": "fact_plate_boundary", "keywords": ["プレート境界"], "value": true},
+        {"id": "fact_plate_movement", "keywords": ["プレート運動"], "value": true},
+        {"id": "fact_earthquake_occurrence", "keywords": ["地震発生"], "value": true},
+        {"id": "fact_volcanic_activity", "keywords": ["火山活動"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-geo-001-1",
+          "if": {"all": [{"fact": "fact_plate_boundary"}, {"fact": "fact_plate_movement"}]},
+          "then": {"fact": "fact_earthquake_occurrence", "value": true},
+          "explanation": "プレート境界でプレートが運動するとき、ひずみが解放されて地震が発生する。"
+        },
+        {
+          "id": "rule-geo-001-2",
+          "if": {"all": [{"fact": "fact_plate_boundary"}, {"fact": "fact_plate_movement"}]},
+          "then": {"fact": "fact_volcanic_activity", "value": true},
+          "explanation": "プレート境界での運動はマグマの生成を促し、火山活動を引き起こすことがある。"
+        }
+      ]
+    },
+    {
+      "id": "geography-002",
+      "title": "気圧と風",
+      "content": "空気は高気圧から低気圧へ向かって流れ、これが風となる。",
+      "facts": [
+        {"id": "fact_high_pressure", "keywords": ["高気圧"], "value": true},
+        {"id": "fact_low_pressure", "keywords": ["低気圧"], "value": true},
+        {"id": "fact_wind_generated", "keywords": ["風の発生"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-geo-002-1",
+          "if": {"all": [{"fact": "fact_high_pressure"}, {"fact": "fact_low_pressure"}]},
+          "then": {"fact": "fact_wind_generated", "value": true},
+          "explanation": "高気圧と低気圧の間に気圧差があるとき、空気が高気圧から低気圧へ流れて風が生じる。"
+        }
+      ]
+    },
+    {
+      "id": "nature-001",
+      "title": "水の循環",
+      "content": "水は蒸発、凝結、降水、流出の過程を経て地球上を循環する。",
+      "facts": [
+        {"id": "fact_evaporation", "keywords": ["蒸発"], "value": true},
+        {"id": "fact_condensation", "keywords": ["凝結"], "value": true},
+        {"id": "fact_precipitation", "keywords": ["降水"], "value": true},
+        {"id": "fact_water_cycle", "keywords": ["水の循環"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-nature-001-1",
+          "if": {"all": [{"fact": "fact_evaporation"}, {"fact": "fact_condensation"}, {"fact": "fact_precipitation"}]},
+          "then": {"fact": "fact_water_cycle", "value": true},
+          "explanation": "蒸発・凝結・降水の過程が連続するとき、水の循環が成立する。"
+        }
+      ]
+    },
+    {
+      "id": "nature-002",
+      "title": "虹の発生条件",
+      "content": "虹は太陽光が空中の水滴で屈折・反射・分散することによって生じる。",
+      "facts": [
+        {"id": "fact_sunlight", "keywords": ["太陽光"], "value": true},
+        {"id": "fact_water_droplets", "keywords": ["水滴"], "value": true},
+        {"id": "fact_rainbow", "keywords": ["虹"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-nature-002-1",
+          "if": {"all": [{"fact": "fact_sunlight"}, {"fact": "fact_water_droplets"}]},
+          "then": {"fact": "fact_rainbow", "value": true},
+          "explanation": "太陽光が空中の水滴に当たると、屈折・反射・分散により虹が発生する。"
+        }
+      ]
+    },
+    {
+      "id": "daily-001",
+      "title": "火災報知器の作動条件",
+      "content": "火災報知器は煙または熱を検知すると警報を発する。",
+      "facts": [
+        {"id": "fact_smoke_detected", "keywords": ["煙検知"], "value": true},
+        {"id": "fact_heat_detected", "keywords": ["熱検知"], "value": true},
+        {"id": "fact_alarm_sounded", "keywords": ["警報発報"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-daily-001-1",
+          "if": {"any": [{"fact": "fact_smoke_detected"}, {"fact": "fact_heat_detected"}]},
+          "then": {"fact": "fact_alarm_sounded", "value": true},
+          "explanation": "煙または熱のいずれかが検知されたとき、火災報知器の警報が発報される。"
+        }
+      ]
+    },
+    {
+      "id": "daily-002",
+      "title": "洗濯物が乾く条件",
+      "content": "洗濯物は気温が高く、湿度が低く、風通しが良いほど早く乾く。",
+      "facts": [
+        {"id": "fact_high_temperature", "keywords": ["気温が高い"], "value": true},
+        {"id": "fact_low_humidity", "keywords": ["湿度が低い"], "value": true},
+        {"id": "fact_good_ventilation", "keywords": ["風通しが良い"], "value": true},
+        {"id": "fact_laundry_dries_fast", "keywords": ["洗濯物が早く乾く"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-daily-002-1",
+          "if": {"all": [{"fact": "fact_high_temperature"}, {"fact": "fact_low_humidity"}, {"fact": "fact_good_ventilation"}]},
+          "then": {"fact": "fact_laundry_dries_fast", "value": true},
+          "explanation": "気温が高く湿度が低く風通しが良いとき、蒸発が促進され洗濯物は早く乾く。"
+        }
+      ]
+    },
+    {
+      "id": "problem-001",
+      "title": "問題解決の基本手順",
+      "content": "問題解決は問題の明確化、原因分析、解決策の立案、実行、評価の手順で進める。",
+      "facts": [
+        {"id": "fact_problem_defined", "keywords": ["問題の明確化"], "value": true},
+        {"id": "fact_cause_analyzed", "keywords": ["原因分析"], "value": true},
+        {"id": "fact_solution_planned", "keywords": ["解決策立案"], "value": true},
+        {"id": "fact_solution_executed", "keywords": ["実行"], "value": true},
+        {"id": "fact_problem_solved", "keywords": ["問題解決"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-prob-001-1",
+          "if": {"all": [{"fact": "fact_problem_defined"}, {"fact": "fact_cause_analyzed"}, {"fact": "fact_solution_planned"}, {"fact": "fact_solution_executed"}]},
+          "then": {"fact": "fact_problem_solved", "value": true},
+          "explanation": "問題の明確化、原因分析、解決策立案、実行の各段階を経ることで問題が解決される。"
+        }
+      ]
+    },
+    {
+      "id": "causality-001",
+      "title": "因果関係の成立条件",
+      "content": "因果関係を主張するには、原因が結果に先行すること、関連があること、他の要因が排除されることが必要である。",
+      "facts": [
+        {"id": "fact_cause_precedes_effect", "keywords": ["原因が結果に先行"], "value": true},
+        {"id": "fact_association_present", "keywords": ["関連あり"], "value": true},
+        {"id": "fact_confounders_excluded", "keywords": ["交絡因子の排除"], "value": true},
+        {"id": "fact_causality_established", "keywords": ["因果関係の成立"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-caus-001-1",
+          "if": {"all": [{"fact": "fact_cause_precedes_effect"}, {"fact": "fact_association_present"}, {"fact": "fact_confounders_excluded"}]},
+          "then": {"fact": "fact_causality_established", "value": true},
+          "explanation": "原因の先行、関連の存在、交絡因子の排除が揃うとき、因果関係が成立すると判断できる。"
+        }
+      ]
+    },
+    {
+      "id": "conditional-001",
+      "title": "条件分岐の判断",
+      "content": "条件が満たされている場合は対応する処理を実行し、満たされていない場合は代替処理を実行する。",
+      "facts": [
+        {"id": "fact_condition_met", "keywords": ["条件成立"], "value": true},
+        {"id": "fact_condition_not_met", "keywords": ["条件不成立"], "value": true},
+        {"id": "fact_action_a", "keywords": ["処理A"], "value": true},
+        {"id": "fact_action_b", "keywords": ["処理B"], "value": true}
+      ],
+      "rules": [
+        {
+          "id": "rule-cond-001-1",
+          "if": {"all": [{"fact": "fact_condition_met"}]},
+          "then": {"fact": "fact_action_a", "value": true},
+          "explanation": "条件が成立しているとき、対応する処理Aが実行される。"
+        },
+        {
+          "id": "rule-cond-001-2",
+          "if": {"all": [{"fact": "fact_condition_not_met"}]},
+          "then": {"fact": "fact_action_b", "value": true},
+          "explanation": "条件が成立していないとき、代替処理Bが実行される。"
+        }
+      ]
+    }
+  ]
+}
