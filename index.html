@@ -6,31 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#101827">
   <title>Knowledge AI</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <div class="app">
+
     <header class="header">
       <div class="logo">AI</div>
       <div>
         <h1 id="ai-name">Knowledge AI</h1>
-        <p id="ai-description">知識ベースAIアシスタント</p>
+        <p id="ai-description">知識ベースAI</p>
       </div>
-      <span class="status" id="status">接続中...</span>
+      <span id="status" class="status">起動中</span>
     </header>
 
     <main id="chat" class="chat">
       <div class="message assistant">
         <div class="avatar">AI</div>
         <div class="bubble">
-          こんにちは！何でも質問してください。
-          登録された知識データから回答します。
+          こんにちは！質問を入力してください。
         </div>
       </div>
     </main>
 
-    <div class="loading" id="loading" hidden>
-      知識データを検索しています...
+    <div id="loading" class="loading" hidden>
+      知識を検索しています...
     </div>
 
     <form id="chat-form" class="input-area">
@@ -45,10 +45,11 @@
     </form>
 
     <footer>
-      Knowledge AI / GitHub Pages Edition
+      Single Repository Knowledge AI
     </footer>
+
   </div>
 
-  <script src="app.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
