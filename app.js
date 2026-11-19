@@ -1,8 +1,10 @@
+```javascript
 "use strict";
 
 // ==========================================
-// Knowledge AI v2.1
-// JSON + JSONL Knowledge Edition
+// Knowledge AI v2.2
+// Improved Knowledge Search
+// JSON + JSONL Edition
 // ==========================================
 
 const CONFIG_URL = "./config.json";
@@ -25,11 +27,15 @@ async function fetchJSON(url) {
   const config = state.config || {};
   const timeout = config.request_timeout || 10000;
   const retries = config.retry_count ?? 2;
+
   let lastError;
 
   for (let attempt = 0; attempt <= retries; attempt++) {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), timeout);
+    const timer = setTimeout(
+      () => controller.abort(),
+      timeout
+    );
 
     try {
       const response = await fetch(url, {
@@ -107,7 +113,7 @@ async function initialize() {
 
     addMessage(
       "設定ファイルまたは目次を読み込めませんでした。\n" +
-      "GitHub Pagesの公開設定とファイルの配置を確認してください。",
+      error.message,
       "assistant"
     );
   }
@@ -148,17 +154,43 @@ function tokenize(text) {
 }
 
 // ==========================================
-// 4. スコアリング
+// 4. 検索用テキストの作成
+// ==========================================
+
+function getSearchText(item) {
+  const values = [
+    item.title,
+    item.content,
+    ...(item.keywords || []),
+    ...(item.synonyms || []),
+    ...(item.tags || [])
+  ];
+
+  for (const fact of item.facts || []) {
+    values.push(fact.label);
+
+    if (Array.isArray(fact.keywords)) {
+      values.push(...fact.keywords);
+    }
+
+    if (Array.isArray(fact.negativeKeywords)) {
+      values.push(...fact.negativeKeywords);
+    }
+  }
+
+  return normalize(values.filter(Boolean).join(" "));
+}
+
+// ==========================================
+// 5. スコアリング
 // ==========================================
 
 function calculateScore(question, item) {
   const q = normalize(question);
   const terms = tokenize(question);
+  const searchText = getSearchText(item);
 
   let score = 0;
-
-  const factKeywords = (item.facts || [])
-    .flatMap(fact => fact.keywords || []);
 
   const fields = [
     ["keywords", 10],
@@ -167,10 +199,13 @@ function calculateScore(question, item) {
   ];
 
   for (const [field, weight] of fields) {
-    const values = [
-      ...(item[field] || []),
-      ...(field === "keywords" ? factKeywords : [])
-    ];
+    const values = [...(item[field] || [])];
+
+    if (field === "keywords") {
+      for (const fact of item.facts || []) {
+        values.push(...(fact.keywords || []));
+      }
+    }
 
     for (const value of values) {
       const word = normalize(value);
@@ -185,27 +220,42 @@ function calculateScore(question, item) {
   }
 
   const title = normalize(item.title || "");
-  const content = normalize(item.content || "");
 
   if (title && q.includes(title)) {
     score += 12;
   }
 
-  if (content && q.includes(content)) {
-    score += 2;
+  // タイトル・本文・factsの語句も検索する
+  const matchedTerms = terms.filter(term =>
+    term.length >= 2 && searchText.includes(term)
+  );
+
+  score += matchedTerms.length * 2;
+
+  // 日本語の短い語句にも対応
+  if (score === 0) {
+    const questionParts = q.match(
+      /[\u3040-\u30ff\u3400-\u9fff]{2,}/g
+    ) || [];
+
+    for (const part of questionParts) {
+      if (searchText.includes(part)) {
+        score += 3;
+      }
+    }
   }
 
   return score;
 }
 
 // ==========================================
-// 5. 必要な知識ファイルを選択
+// 6. 知識ファイルの選択
 // ==========================================
 
 function findRelevantSources(question) {
   const sources = state.index.sources;
 
-  return sources
+  const ranked = sources
     .map(source => ({
       ...source,
       score: calculateScore(question, {
@@ -215,13 +265,22 @@ function findRelevantSources(question) {
         synonyms: source.synonyms
       })
     }))
-    .filter(source => source.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, state.config.max_sources || 5);
+    .sort((a, b) => b.score - a.score);
+
+  const maxSources = state.config.max_sources || 5;
+
+  // 一致するファイルがなくても検索を中止しない
+  const selected = ranked.filter(source => source.score > 0);
+
+  if (selected.length === 0) {
+    return ranked.slice(0, maxSources);
+  }
+
+  return selected.slice(0, maxSources);
 }
 
 // ==========================================
-// 6. JSON / JSONL知識ファイル取得
+// 7. JSON / JSONL知識ファイル取得
 // ==========================================
 
 async function loadKnowledge(source) {
@@ -239,7 +298,6 @@ async function loadKnowledge(source) {
 
   let data;
 
-  // JSONL形式
   if (source.path.toLowerCase().endsWith(".jsonl")) {
     const response = await fetch(url, {
       method: "GET",
@@ -252,14 +310,11 @@ async function loadKnowledge(source) {
     }
 
     const text = await response.text();
-
     const knowledge = [];
     const lines = text.split(/\r?\n/);
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
-
-      // 空行は読み飛ばす
       if (!line) continue;
 
       let item;
@@ -280,7 +335,7 @@ async function loadKnowledge(source) {
         typeof item.content !== "string"
       ) {
         throw new Error(
-          `JSONLの${i + 1}行目の知識データ形式が不正です`
+          `JSONLの${i + 1}行目の形式が不正です`
         );
       }
 
@@ -290,7 +345,6 @@ async function loadKnowledge(source) {
     data = { knowledge };
 
   } else {
-    // 従来のJSON形式
     data = await fetchJSON(url);
 
     if (!Array.isArray(data.knowledge)) {
@@ -321,18 +375,13 @@ async function loadKnowledge(source) {
 }
 
 // ==========================================
-// 7. 知識検索
+// 8. 知識検索
 // ==========================================
 
 async function searchKnowledge(question) {
+  // 関連度の高いファイルを優先する
+  // 一致しない場合もファイルを検索する
   const sources = findRelevantSources(question);
-
-  if (sources.length === 0) {
-    return {
-      results: [],
-      errors: []
-    };
-  }
 
   const responses = await Promise.allSettled(
     sources.map(source => loadKnowledge(source))
@@ -359,49 +408,51 @@ async function searchKnowledge(question) {
     for (const item of result.value.knowledge) {
       const score = calculateScore(question, item);
 
-      if (score > 0) {
-        candidates.push({
-          ...item,
-          score,
-          sourceName: sources[i].name
-        });
-      }
+      candidates.push({
+        ...item,
+        score,
+        sourceName: sources[i].name
+      });
     }
   }
 
+  // 高得点順に並べる
   candidates.sort((a, b) => b.score - a.score);
 
-  const results = candidates
-    .slice(0, state.config.max_results || 10);
+  // 一致した知識を優先する
+  const matched = candidates.filter(item => item.score > 0);
+
+  const results = (
+    matched.length > 0 ? matched : []
+  ).slice(0, state.config.max_results || 10);
 
   return {
     results,
-    errors
+    errors,
+    totalLoaded: candidates.length
   };
 }
 
 // ==========================================
-// 8. 回答生成
+// 9. 回答生成
 // ==========================================
 
 function generateAnswer(question, results) {
   const config = state.config;
-  const threshold = config.min_score || 1;
+  const threshold = config.min_score ?? 1;
 
   const matched = results.filter(
     item => item.score >= threshold
   );
 
   if (matched.length === 0) {
-    return config.fallback_message;
+    return config.fallback_message ||
+      "関連する知識が見つかりませんでした。";
   }
 
-  const contents = matched.map(item => {
-    return (
-      `【${item.title}】\n` +
-      item.content
-    );
-  });
+  const contents = matched.map(item =>
+    `【${item.title}】\n${item.content}`
+  );
 
   const combinedContent = contents.join("\n\n");
 
@@ -417,7 +468,7 @@ function generateAnswer(question, results) {
 }
 
 // ==========================================
-// 9. チャット表示
+// 10. チャット表示
 // ==========================================
 
 function addMessage(text, role) {
@@ -433,7 +484,6 @@ function addMessage(text, role) {
 
   const bubble = document.createElement("div");
   bubble.className = "bubble";
-
   bubble.textContent = text;
 
   message.appendChild(avatar);
@@ -444,7 +494,7 @@ function addMessage(text, role) {
 }
 
 // ==========================================
-// 10. 質問処理
+// 11. 質問処理・論理推論
 // ==========================================
 
 async function handleQuestion(question) {
@@ -480,12 +530,14 @@ async function handleQuestion(question) {
       );
     }
 
-    addMessage(
-      reasoning
-        ? answer + "\n\n" + window.LogicReasoner.format(reasoning)
-        : answer,
-      "assistant"
-    );
+    let finalAnswer = answer;
+
+    if (reasoning) {
+      finalAnswer += "\n\n" +
+        window.LogicReasoner.format(reasoning);
+    }
+
+    addMessage(finalAnswer, "assistant");
 
     if (search.results.length > 0) {
       const references = search.results
@@ -509,12 +561,21 @@ async function handleQuestion(question) {
       );
     }
 
+    if (
+      search.results.length === 0 &&
+      search.errors.length === 0
+    ) {
+      addMessage(
+        "知識ファイルは読み込めましたが、質問に関連する知識が見つかりませんでした。",
+        "assistant"
+      );
+    }
+
   } catch (error) {
     console.error("検索エラー:", error);
 
     addMessage(
       "検索中にエラーが発生しました。\n" +
-      "通信状態とJSON / JSONLファイルを確認してください。\n" +
       error.message,
       "assistant"
     );
@@ -528,7 +589,7 @@ async function handleQuestion(question) {
 }
 
 // ==========================================
-// 11. イベント設定
+// 12. イベント設定
 // ==========================================
 
 $("chat-form").addEventListener(
@@ -551,6 +612,7 @@ $("chat-form").addEventListener(
 );
 
 // Enterで送信 / Shift + Enterで改行
+
 $("question").addEventListener(
   "keydown",
   event => {
@@ -566,20 +628,21 @@ $("question").addEventListener(
 );
 
 // 入力欄の高さ自動調整
+
 $("question").addEventListener(
   "input",
   event => {
     const element = event.target;
 
     element.style.height = "auto";
-
     element.style.height =
       Math.min(element.scrollHeight, 140) + "px";
   }
 );
 
 // ==========================================
-// 12. 起動
+// 13. 起動
 // ==========================================
 
 initialize();
+```
