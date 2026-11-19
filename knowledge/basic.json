@@ -1,0 +1,32 @@
+
+{
+  "database_name": "Basic Knowledge",
+  "version": "1.0.0",
+
+  "knowledge": [
+    {
+      "id": "basic-001",
+      "title": "AIとは何か",
+      "keywords": ["AI", "人工知能", "AIとは"],
+      "tags": ["技術", "コンピューター", "機械学習"],
+      "synonyms": ["人工知能とは", "AIの意味"],
+      "content": "AI（人工知能）とは、人間の知的な活動の一部をコンピューターで実現する技術の総称です。データの分析、分類、予測、文章生成などに利用されます。"
+    },
+    {
+      "id": "basic-002",
+      "title": "GitHub Pagesとは",
+      "keywords": ["GitHub Pages", "GitHub", "公開"],
+      "tags": ["Web", "HTML", "静的サイト"],
+      "synonyms": ["無料ホームページ", "サイト公開"],
+      "content": "GitHub Pagesは、GitHubのリポジトリに保存したHTML、CSS、JavaScriptなどの静的ファイルをWebサイトとして公開できるホスティング機能です。"
+    },
+    {
+      "id": "basic-003",
+      "title": "JSONとは",
+      "keywords": ["JSON", "JSONファイル", "データ形式"],
+      "tags": ["データ保存", "構造化データ"],
+      "synonyms": ["ジェイソン", "データ交換形式"],
+      "content": "JSONは、キーと値を組み合わせてデータを表現する軽量なデータ形式です。設定ファイルや知識データの保存などに利用されます。"
+    }
+  ]
+}
